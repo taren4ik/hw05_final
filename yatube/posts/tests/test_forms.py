@@ -171,5 +171,5 @@ class PostCreateFormTests(TestCase):
         comments_count = Comment.objects.count()
         self.assertEqual(Comment.objects.count(), comments_count)
         self.assertRedirects(
-            response_guest_client, f"/auth/login/?next=/posts/1/comment/"
+            response_guest_client, "/auth/login/?next=/posts/1/comment/"
         )
