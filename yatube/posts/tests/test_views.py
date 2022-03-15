@@ -182,9 +182,8 @@ class PostViewsTests(TestCase):
         response_clear_page = self.guest_client.get(reverse('posts:index'))
         self.assertTrue(response.content != response_clear_page)
 
-    def test_profile_follow_and_unfollow(self):
-        """Работает подписка/отписка автора."""
-
+    def test_profile_follow(self):
+        """Работает подписка автора."""
         user_second = User.objects.create_user(username='new_user')
         follow_before = Follow.objects.count()
 
@@ -193,15 +192,22 @@ class PostViewsTests(TestCase):
                 'posts:profile_follow', kwargs={'username': user_second}))
         follow_after = Follow.objects.count()
         self.assertEqual(follow_before + 1, follow_after)
+
+    def test_profile_unfollow(self):
+        """Работает отписка автора."""
+        user_second = User.objects.create_user(username='new_user')
+        Follow.objects.create(author=user_second, user=PostViewsTests.user)
+        follow_before = Follow.objects.filter(author=user_second).count()
         self.authorized_client.get(
             reverse('posts:profile_unfollow',
                     kwargs={'username': user_second}))
-        self.assertEqual(follow_after - 1, Follow.objects.count())
+        follow_after = Follow.objects.count()
+        self.assertEqual(follow_before -1, follow_after)
+        print(Follow.objects.count())
 
     def test_user_cannot_follow_himself(self):
         """Пользователь не может подписаться на себя."""
         follow_before = Follow.objects.count()
-
         self.authorized_client.get(
             reverse(
                 'posts:profile_follow',
