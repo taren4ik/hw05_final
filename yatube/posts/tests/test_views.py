@@ -202,7 +202,7 @@ class PostViewsTests(TestCase):
             reverse('posts:profile_unfollow',
                     kwargs={'username': user_second}))
         follow_after = Follow.objects.count()
-        self.assertEqual(follow_before -1, follow_after)
+        self.assertEqual(follow_before - 1, follow_after)
         print(Follow.objects.count())
 
     def test_user_cannot_follow_himself(self):
