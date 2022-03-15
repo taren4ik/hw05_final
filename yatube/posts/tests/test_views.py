@@ -203,7 +203,6 @@ class PostViewsTests(TestCase):
                     kwargs={'username': user_second}))
         follow_after = Follow.objects.count()
         self.assertEqual(follow_before - 1, follow_after)
-        print(Follow.objects.count())
 
     def test_user_cannot_follow_himself(self):
         """Пользователь не может подписаться на себя."""
