@@ -45,8 +45,7 @@ def profile(request, username):
     page_obj = paginator.get_page(page_number)
     following = False
     if request.user.is_authenticated and author != request.user:
-        if author.following.exists():
-            following = True
+        following = author.following.filter(user=request.user).exists()
     context = {
         "author": author,
         "page_obj": page_obj,
