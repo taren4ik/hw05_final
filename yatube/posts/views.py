@@ -83,6 +83,13 @@ def post_create(request):
 
 
 @login_required
+def post_delete(request,post_id):
+    post = Post.objects.get(id=post_id)
+    post.delete()
+    return redirect("posts:profile", username=request.user)
+
+
+@login_required
 def post_edit(request, post_id):
     template = "posts/create_post.html"
     post = get_object_or_404(Post, id=post_id)
